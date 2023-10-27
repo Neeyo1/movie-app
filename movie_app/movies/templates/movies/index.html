@@ -3,8 +3,17 @@
 <div>
     <div class = "left-panel">
         <div class = "account">
-            <a href="/login/">Login</a>
-            <a href="/register/">Register</a>
+            {% if request.user.is_authenticated %}
+                <div>
+                    Hi {{ request.user }} <a href="/profile/{{ request.user.id }}">Profile</a>
+                </div>
+                <div>
+                    <a href="{% url 'logout_from_page' %}">Logout</a>
+                </div>
+            {% else %}
+            <a href="{% url 'login_to_page' %}">Login</a>
+            <a href="{% url 'register_to_page' %}">Register</a>
+            {% endif%}
         </div>
     </div>
     <div class = "right-panel">

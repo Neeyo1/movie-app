@@ -45,7 +45,7 @@ body{
     text-align: center;
 }
 
-.todo{
+.movie{
     font-size: 20px;
     min-height:40px;
     width:100%;
@@ -65,7 +65,7 @@ body{
     padding-bottom: 5px;
 }
 
-.todo:nth-child(2n){
+.movie:nth-child(2n){
     background-color: #F5F5DC;
 }
 

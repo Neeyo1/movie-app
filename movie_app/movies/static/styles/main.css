@@ -1,0 +1,108 @@
+body{
+    background-color: white;
+}
+
+.navbar{
+    border-bottom: 2px solid black;
+    height:50px;
+    display: sticky;
+}
+
+.account{
+    border-bottom: 2px solid black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.navbar > a{
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-panel{
+    float:left;
+    width:15%;
+    height:90%;
+    border-right: 2px solid black;
+    margin-right:0;
+    display: sticky;
+}
+
+.right-panel{
+    float:left;
+    width: 84%;
+    height:90%;
+    font-size: 20px;
+}
+
+.left-panel > .search-bar{
+    border-bottom: 2px solid black;
+}
+
+.left-panel > .search-bar > h3{
+    text-align: center;
+}
+
+.todo{
+    font-size: 20px;
+    min-height:40px;
+    width:100%;
+    border-bottom: 2px solid black;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.comment{
+    font-size: 20px;
+    min-height:40px;
+    width:100%;
+    border-bottom: 2px solid black;
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.todo:nth-child(2n){
+    background-color: #F5F5DC;
+}
+
+.name, .description, .created-by, .created-at, .last-update{
+    border-bottom: 2px solid black;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.comment-info{
+    font-size: 15px;
+}
+
+.profile{
+    float:left;
+    width: 84%;
+    height:90%;
+    font-size: 20px;
+}
+
+.profile-info{
+    height: 200px;
+    border-bottom: 2px solid black;
+}
+
+.profile-picture{
+    float: left;
+    width: 200px;
+}
+
+.profile-user-info{
+    width: 100%;
+    height: 100%;
+}
+
+.profile-last-activity{
+    clear: both;
+    width:100%;
+}

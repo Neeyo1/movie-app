@@ -1,0 +1,14 @@
+{% load static %}
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+    </head>
+    <body>
+        <div class = "navbar">
+            <a href="/movies/">Back to main page</a>
+        </div>
+        {% block content %}
+
+        {% endblock %}
+    </body>
+</html>

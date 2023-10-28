@@ -32,7 +32,8 @@ def login_to_page(request):
 
 def logout_from_page(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    next_url = request.GET.get('next') or reverse('index')
+    return HttpResponseRedirect(next_url)
 
 def register_to_page(request):
     context = {}

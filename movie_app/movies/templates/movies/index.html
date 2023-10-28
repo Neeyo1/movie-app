@@ -8,11 +8,11 @@
                     Hi {{ request.user }} <a href="/profile/{{ request.user.id }}">Profile</a>
                 </div>
                 <div>
-                    <a href="{% url 'logout_from_page' %}">Logout</a>
+                    <a href="{% url 'logout_from_page' %}?next={{ request.path }}">Logout</a>
                 </div>
             {% else %}
-            <a href="{% url 'login_to_page' %}">Login</a>
-            <a href="{% url 'register_to_page' %}">Register</a>
+            <a href="{% url 'login_to_page' %}?next={{ request.path }}">Login</a>
+            <a href="{% url 'register_to_page' %}?next={{ request.path }}">Register</a>
             {% endif%}
         </div>
         {% if request.user.is_staff %}

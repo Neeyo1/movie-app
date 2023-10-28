@@ -15,6 +15,10 @@
             <a href="{% url 'register_to_page' %}">Register</a>
             {% endif%}
         </div>
+        {% if request.user.is_staff %}
+            <a href="{% url 'movie_create' %}">Create movie</a></br>
+        {% endif %}
+        <hr/>
     </div>
     <div class = "right-panel">
         {% if movies %}

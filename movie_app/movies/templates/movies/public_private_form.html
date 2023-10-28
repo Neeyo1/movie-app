@@ -1,0 +1,20 @@
+<form action="" method="post">
+    {% csrf_token %}
+    {% if object_to_public_private.is_public %}
+        <p>
+            You are setting {{ object_to_public_private }} as private. Are you sure?
+        </p>
+        <p>
+            <a href = "{{ request.META.HTTP_REFERER }}">No, go back</a>
+        </p>
+        <input type="submit" value="Yes, set as private">
+    {% else %}
+        <p>
+            You are setting {{ object_to_public_private }} as public. Are you sure?
+        </p>
+        <p>
+            <a href = "{{ request.META.HTTP_REFERER }}">No, go back</a>
+        </p>
+        <input type="submit" value="Yes, set as public">
+    {% endif %}
+</form>

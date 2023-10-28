@@ -16,13 +16,14 @@
             {% endif%}
         </div>
         {% if request.user.is_staff %}
-            <a href="/movie/edit/{{ movie.id}}">Edit movie</a>
-            <a href="/movie/delete/{{ movie.id}}">Delete movie</a>
+            <a href="{% url 'movie_create' %}">Create movie</a></br>
+            <a href="{% url 'movie_edit' movie.id %}">Edit movie</a></br>
+            <a href="{% url 'movie_delete' movie.id %}">Delete movie</a></br>
             <br/>
             {% if movie.is_public %}
-                <a href="/movie/public-private/{{ movie.id}}">Mark movie as private</a>
+                <a href="{% url 'movie_public_private' movie.id %}">Mark movie as private</a>
             {% else %}
-                <a href="/movie/public-private/{{ movie.id}}">Mark movie as public</a>
+                <a href="{% url 'movie_public_private' movie.id %}">Mark movie as public</a>
             {% endif %}
         {% endif %}
         <hr/>

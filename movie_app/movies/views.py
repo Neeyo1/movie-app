@@ -59,3 +59,62 @@ def movie_detail(request, movie_id):
             return HttpResponse("Movie is private")
     context["movie"] = movie
     return render(request, "movies/movie_detail.html", context)
+
+def movie_create(request):
+    context = {}
+    if request.method == "POST":
+        form = MovieForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.created_by = request.user
+            instance.updated_by = request.user
+            instance.save()
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        form = MovieForm()
+    context["form"] = form
+    return render(request, "movies/create_edit_form.html", {"form": form})
+
+def movie_edit(request, movie_id):
+    context = {}
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+
+    form = MovieForm(instance=movie)
+    if request.method == "POST":
+        form = MovieForm(request.POST, instance=movie)
+        if form.is_valid():
+            instance = form.save()
+            return HttpResponseRedirect(reverse('movie_detail', args=(str(instance.id))))
+    context["form"] = form
+    return render(request, "movies/create_edit_form.html", context)
+
+def movie_delete(request, movie_id):
+    context = {}
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+
+    if request.method == "POST":
+        movie.delete()
+        return HttpResponseRedirect(reverse('index'))
+    context["object_to_delete"] = movie
+    return render(request, "movies/delete_form.html", context)
+
+def movie_public_private(request, movie_id):
+    context = {}
+    movie = get_object_or_404(Movie, pk=movie_id)
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+    
+    if request.method == "POST":
+        movie.public = not movie.public
+        movie.save()
+        return HttpResponseRedirect(reverse('movie_detail', args=(str(movie.id))))
+
+    context["object_to_public_private"] = movie
+    return render(request, "movies/public_private_form.html", context)

@@ -20,7 +20,7 @@
         {% if movies %}
             {% for movie in movies %}
                 <div class = "movie">
-                    <a href="/movies/movie/{{ movie.id }}/">{{ movie.name }}</a>
+                    <a href="{% url 'movie_detail' movie.id %}">{{ movie.name }}</a>
                 </div>
             {% endfor %}
         {% else %}

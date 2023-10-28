@@ -1,0 +1,43 @@
+{% extends 'movies/template.html' %}
+{% block content %}
+<div>
+    <div class = "left-panel">
+        <div class = "account">
+            {% if request.user.is_authenticated %}
+                <div>
+                    Hi {{ request.user }} <a href="/profile/{{ request.user.id }}">Profile</a>
+                </div>
+                <div>
+                    <a href="{% url 'logout_from_page' %}">Logout</a>
+                </div>
+            {% else %}
+            <a href="{% url 'login_to_page' %}">Login</a>
+            <a href="{% url 'register_to_page' %}">Register</a>
+            {% endif%}
+        </div>
+        {% if request.user.is_staff %}
+            <a href="/movie/edit/{{ movie.id}}">Edit movie</a>
+            <a href="/movie/delete/{{ movie.id}}">Delete movie</a>
+            <br/>
+            {% if movie.is_public %}
+                <a href="/movie/public-private/{{ movie.id}}">Mark movie as private</a>
+            {% else %}
+                <a href="/movie/public-private/{{ movie.id}}">Mark movie as public</a>
+            {% endif %}
+        {% endif %}
+        <hr/>
+    </div>
+    <div class = "right-panel">
+        {{ movie.name }}<br/>
+        {{ movie.description }}<br/>
+        Created by <a href="/profile/{{ movie.created_by.id }}">{{ movie.created_by }}</a><br/>
+        Created at {{ movie.created_at }}<br/>
+        Last update {{ movie.updated_at }}<br/>
+        {% if movie.is_public %}
+            Status: Public<br/>
+        {% else %}
+            Status: Private<br/>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

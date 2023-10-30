@@ -6,6 +6,9 @@
     <body>
         <div class = "navbar">
             <a href="{% url 'index' %}">Back to main page</a>
+            <a href="{% url 'movie' %}">Movies</a>
+            <a href="{% url 'genre' %}">Genres</a>
+            <a href="{% url 'tag' %}">Tags</a>
         </div>
         {% block content %}
 

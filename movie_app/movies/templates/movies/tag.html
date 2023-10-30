@@ -15,9 +15,23 @@
             <a href="{% url 'register_to_page' %}?next={{ request.path }}">Register</a>
             {% endif%}
         </div>
+        {% if request.user.is_staff %}
+            <a href="{% url 'tag_create' %}">Create tag</a></br>
+        {% endif %}
+        <hr/>
     </div>
     <div class = "right-panel">
-        Userfeed or something
+        {% if tags %}
+            {% for tag in tags %}
+                <div class = "tag">
+                    <a href="{% url 'tag_detail' tag.id %}">{{ tag.name }}</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class = "tag">
+            No tag is available.
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}

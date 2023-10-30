@@ -15,9 +15,23 @@
             <a href="{% url 'register_to_page' %}?next={{ request.path }}">Register</a>
             {% endif%}
         </div>
+        {% if request.user.is_staff %}
+            <a href="{% url 'genre_create' %}">Create genre</a></br>
+        {% endif %}
+        <hr/>
     </div>
     <div class = "right-panel">
-        Userfeed or something
+        {% if genres %}
+            {% for genre in genres %}
+                <div class = "genre">
+                    <a href="{% url 'genre_detail' genre.id %}">{{ genre.name }}</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class = "genre">
+            No genre is available.
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}

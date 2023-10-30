@@ -16,7 +16,6 @@
             {% endif%}
         </div>
         {% if request.user.is_staff %}
-            <a href="{% url 'movie_create' %}">Create movie</a></br>
             <a href="{% url 'movie_edit' movie.id %}">Edit movie</a></br>
             <a href="{% url 'movie_delete' movie.id %}">Delete movie</a></br>
             <br/>

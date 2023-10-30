@@ -15,9 +15,15 @@
             <a href="{% url 'register_to_page' %}?next={{ request.path }}">Register</a>
             {% endif%}
         </div>
+        {% if request.user.is_staff %}
+            <a href="{% url 'genre_edit' genre.id %}">Edit genre</a></br>
+            <a href="{% url 'genre_delete' genre.id %}">Delete genre</a></br>
+        {% endif %}
+        <hr/>
     </div>
     <div class = "right-panel">
-        Userfeed or something
+        {{ genre.name }}<br/>
+        {{ genre.description }}
     </div>
 </div>
 {% endblock content %}

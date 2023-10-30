@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
 from .models import Genre, Tag, Movie
-from .forms import MovieForm
+from .forms import MovieForm, GenreForm, TagForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -9,8 +9,8 @@ from django.urls import reverse
 # Create your views here.
 def index(request):
     context = {}
-    movies = Movie.objects.all()
-    context['movies'] = movies
+    #movies = Movie.objects.all()
+    #context['movies'] = movies
     return render(request, "movies/index.html", context)
 
 def login_to_page(request):
@@ -52,6 +52,12 @@ def register_to_page(request):
             return render(request, "movies/register_form.html", context)
     return render(request, "movies/register_form.html", context)
 
+def movie(request):
+    context = {}
+    movies = Movie.objects.all()
+    context['movies'] = movies
+    return render(request, "movies/movie.html", context)
+
 def movie_detail(request, movie_id):
     context = {}
     movie = get_object_or_404(Movie, pk=movie_id)
@@ -63,6 +69,10 @@ def movie_detail(request, movie_id):
 
 def movie_create(request):
     context = {}
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+    
     if request.method == "POST":
         form = MovieForm(request.POST)
         if form.is_valid():
@@ -119,3 +129,125 @@ def movie_public_private(request, movie_id):
 
     context["object_to_public_private"] = movie
     return render(request, "movies/public_private_form.html", context)
+
+def genre(request):
+    context = {}
+    genres = Genre.objects.all()
+    context['genres'] = genres
+    return render(request, "movies/genre.html", context)
+
+def genre_detail(request, genre_id):
+    context = {}
+    genre = get_object_or_404(Genre, pk=genre_id)
+    context["genre"] = genre
+    return render(request, "movies/genre_detail.html", context)
+
+def genre_create(request):
+    context = {}
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+
+    if request.method == "POST":
+        form = GenreForm(request.POST)
+        if form.is_valid():
+            #instance = form.save(commit=False)
+            #instance.created_by = request.user
+            #instance.updated_by = request.user
+            #instance.save()
+            form.save()
+            return HttpResponseRedirect(reverse('genre'))
+    else:
+        form = GenreForm()
+    context["form"] = form
+    return render(request, "movies/create_edit_form.html", {"form": form})
+
+def genre_edit(request, genre_id):
+    context = {}
+    genre = get_object_or_404(Genre, pk=genre_id)
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+
+    form = GenreForm(instance=genre)
+    if request.method == "POST":
+        form = GenreForm(request.POST, instance=genre)
+        if form.is_valid():
+            instance = form.save()
+            return HttpResponseRedirect(reverse('genre_detail', args=(str(instance.id))))
+    context["form"] = form
+    return render(request, "movies/create_edit_form.html", context)
+
+def genre_delete(request, genre_id):
+    context = {}
+    genre = get_object_or_404(Genre, pk=genre_id)
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+
+    if request.method == "POST":
+        genre.delete()
+        return HttpResponseRedirect(reverse('genre'))
+    context["object_to_delete"] = genre
+    return render(request, "movies/delete_form.html", context)
+
+def tag(request):
+    context = {}
+    tags = Tag.objects.all()
+    context['tags'] = tags
+    return render(request, "movies/tag.html", context)
+
+def tag_detail(request, tag_id):
+    context = {}
+    tag = get_object_or_404(Tag, pk=tag_id)
+    context["tag"] = tag
+    return render(request, "movies/tag_detail.html", context)
+
+def tag_create(request):
+    context = {}
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+
+    if request.method == "POST":
+        form = TagForm(request.POST)
+        if form.is_valid():
+            #instance = form.save(commit=False)
+            #instance.created_by = request.user
+            #instance.updated_by = request.user
+            #instance.save()
+            form.save()
+            return HttpResponseRedirect(reverse('tag'))
+    else:
+        form = TagForm()
+    context["form"] = form
+    return render(request, "movies/create_edit_form.html", {"form": form})
+
+def tag_edit(request, tag_id):
+    context = {}
+    tag = get_object_or_404(Tag, pk=tag_id)
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+
+    form = TagForm(instance=tag)
+    if request.method == "POST":
+        form = TagForm(request.POST, instance=tag)
+        if form.is_valid():
+            instance = form.save()
+            return HttpResponseRedirect(reverse('tag_detail', args=(str(instance.id))))
+    context["form"] = form
+    return render(request, "movies/create_edit_form.html", context)
+
+def tag_delete(request, tag_id):
+    context = {}
+    tag = get_object_or_404(Tag, pk=tag_id)
+
+    if not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+
+    if request.method == "POST":
+        tag.delete()
+        return HttpResponseRedirect(reverse('tag'))
+    context["object_to_delete"] = tag
+    return render(request, "movies/delete_form.html", context)

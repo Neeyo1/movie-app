@@ -30,4 +30,6 @@ urlpatterns = [
     path("tag/create/", views.tag_create, name="tag_create"),
     path("tag/edit/<int:tag_id>", views.tag_edit, name="tag_edit"),
     path("tag/delete/<int:tag_id>", views.tag_delete, name="tag_delete"),
+    #user profile
+    path("profile/<int:user_id>/", views.user_profile, name="user_profile"),
 ]

@@ -5,7 +5,7 @@
         <div class = "account">
             {% if request.user.is_authenticated %}
                 <div>
-                    Hi {{ request.user }} <a href="/profile/{{ request.user.id }}">Profile</a>
+                    Hi {{ request.user }} <a href="{% url 'user_profile' request.user.id %}">Profile</a>
                 </div>
                 <div>
                     <a href="{% url 'logout_from_page' %}?next={{ request.path }}">Logout</a>

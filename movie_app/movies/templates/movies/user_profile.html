@@ -1,0 +1,43 @@
+{% extends 'movies/template.html' %}
+{% load static %}
+{% block content %}
+<div>
+    <div class = "left-panel">
+        <div class = "account">
+            {% if request.user.is_authenticated %}
+                <div>
+                    Hi {{ request.user }} <a href="/profile/{{ request.user.id }}">Profile</a>
+                </div>
+                <div>
+                    <a href="{% url 'logout_from_page' %}?next={{ request.path }}">Logout</a>
+                </div>
+            {% else %}
+            <a href="{% url 'login_to_page' %}?next={{ request.path }}">Login</a>
+            <a href="{% url 'register_to_page' %}?next={{ request.path }}">Register</a>
+            {% endif%}
+        </div>
+    </div>
+    <div class = "profile">
+        <div class = "profile-info">
+            <div class="profile-picture">
+                <img src="{% static 'user_profile_pictures/default.jpg' %}" alt="Profile picture">
+            </div>
+            <div class="profile-user-info">
+                <p>Username: {{ user.username }}</p>
+                {% if user.email %}
+                    <p>E-mail: {{ user.email }}</p>
+                {% else %}
+                    <p>E-mail: <i>Not set</i></p>
+                {% endif %}
+                {% if user.first_name %}
+                    <p>Name: {{ user.first_name }}</p>
+                {% else %}
+                    <p>Name: <i>Not set</i></p>
+                {% endif %}
+                <p>Joined at: {{ user.date_joined }}</p>
+                <p>Last login: {{ user.last_login|timesince }} ago</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

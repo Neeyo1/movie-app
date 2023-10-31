@@ -251,3 +251,9 @@ def tag_delete(request, tag_id):
         return HttpResponseRedirect(reverse('tag'))
     context["object_to_delete"] = tag
     return render(request, "movies/delete_form.html", context)
+
+def user_profile(request, user_id):
+    context = {}
+    user = get_object_or_404(User, pk=user_id)
+    context["user"] = user
+    return render(request, "movies/user_profile.html", context)

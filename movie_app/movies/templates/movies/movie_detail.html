@@ -18,6 +18,16 @@
     <div class = "right-panel">
         {{ movie.name }}<br/>
         {{ movie.description }}<br/>
+        Genres: 
+        {% for genre in movie.genres.all %}
+            <a href="{% url 'genre_detail' genre.id %}">{{ genre }}</a>
+        {% endfor %}
+        <br/>
+        Tags: 
+        {% for tag in movie.tags.all %}
+            <a href="{% url 'tag_detail' tag.id %}">{{ tag }}</a>
+        {% endfor %}
+        <br/>
         Created by <a href="/profile/{{ movie.created_by.id }}">{{ movie.created_by }}</a><br/>
         Created at {{ movie.created_at }}<br/>
         Last update {{ movie.updated_at }}<br/>

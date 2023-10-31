@@ -1,25 +1,12 @@
 {% extends 'movies/template.html' %}
+{% block left_panel %}
+    {% if request.user.is_staff %}
+        <a href="{% url 'genre_create' %}">Create genre</a></br>
+    {% endif %}
+    <hr/>
+{% endblock left_panel %}
+
 {% block content %}
-<div>
-    <div class = "left-panel">
-        <div class = "account">
-            {% if request.user.is_authenticated %}
-                <div>
-                    Hi {{ request.user }} <a href="{% url 'user_profile' request.user.id %}">Profile</a>
-                </div>
-                <div>
-                    <a href="{% url 'logout_from_page' %}?next={{ request.path }}">Logout</a>
-                </div>
-            {% else %}
-            <a href="{% url 'login_to_page' %}?next={{ request.path }}">Login</a>
-            <a href="{% url 'register_to_page' %}?next={{ request.path }}">Register</a>
-            {% endif%}
-        </div>
-        {% if request.user.is_staff %}
-            <a href="{% url 'genre_create' %}">Create genre</a></br>
-        {% endif %}
-        <hr/>
-    </div>
     <div class = "right-panel">
         {% if genres %}
             {% for genre in genres %}
@@ -33,5 +20,4 @@
             </div>
         {% endif %}
     </div>
-</div>
 {% endblock content %}

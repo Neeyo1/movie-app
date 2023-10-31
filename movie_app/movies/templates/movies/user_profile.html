@@ -1,22 +1,11 @@
 {% extends 'movies/template.html' %}
 {% load static %}
+
+{% block left_panel %}
+    
+{% endblock left_panel %}
+
 {% block content %}
-<div>
-    <div class = "left-panel">
-        <div class = "account">
-            {% if request.user.is_authenticated %}
-                <div>
-                    Hi {{ request.user }} <a href="/profile/{{ request.user.id }}">Profile</a>
-                </div>
-                <div>
-                    <a href="{% url 'logout_from_page' %}?next={{ request.path }}">Logout</a>
-                </div>
-            {% else %}
-            <a href="{% url 'login_to_page' %}?next={{ request.path }}">Login</a>
-            <a href="{% url 'register_to_page' %}?next={{ request.path }}">Register</a>
-            {% endif%}
-        </div>
-    </div>
     <div class = "profile">
         <div class = "profile-info">
             <div class="profile-picture">
@@ -39,5 +28,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock content %}

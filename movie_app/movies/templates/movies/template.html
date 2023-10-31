@@ -10,6 +10,24 @@
             <a href="{% url 'genre' %}">Genres</a>
             <a href="{% url 'tag' %}">Tags</a>
         </div>
+        <div class = "left-panel">
+            <div class = "account">
+                {% if request.user.is_authenticated %}
+                    <div>
+                        Hi {{ request.user }} <a href="{% url 'user_profile' request.user.id %}">Profile</a>
+                    </div>
+                    <div>
+                        <a href="{% url 'logout_from_page' %}?next={{ request.path }}">Logout</a>
+                    </div>
+                {% else %}
+                <a href="{% url 'login_to_page' %}?next={{ request.path }}">Login</a>
+                <a href="{% url 'register_to_page' %}?next={{ request.path }}">Register</a>
+                {% endif%}
+            </div>
+            {% block left_panel %}
+
+            {% endblock %}
+        </div>
         {% block content %}
 
         {% endblock %}

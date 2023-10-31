@@ -12,5 +12,9 @@
     <div class = "right-panel">
         {{ tag.name }}<br/>
         {{ tag.description }}<br/>
+        Movies with this tag:<br/>
+        {% for movie in movies %}
+            <a href="{% url 'movie_detail' movie.id %}">{{ movie }}</a></br>
+        {% endfor %}
     </div>
 {% endblock content %}

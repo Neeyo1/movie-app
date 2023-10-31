@@ -139,7 +139,9 @@ def genre(request):
 def genre_detail(request, genre_id):
     context = {}
     genre = get_object_or_404(Genre, pk=genre_id)
+    movies = genre.movie_set.all()
     context["genre"] = genre
+    context["movies"] = movies
     return render(request, "movies/genre_detail.html", context)
 
 def genre_create(request):
@@ -200,7 +202,9 @@ def tag(request):
 def tag_detail(request, tag_id):
     context = {}
     tag = get_object_or_404(Tag, pk=tag_id)
+    movies = tag.movie_set.all()
     context["tag"] = tag
+    context["movies"] = movies
     return render(request, "movies/tag_detail.html", context)
 
 def tag_create(request):

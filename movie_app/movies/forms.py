@@ -1,5 +1,5 @@
 from django import forms
-from .models import Movie, Genre, Tag
+from .models import Movie, Genre, Tag, Comment
 
 class MovieForm(forms.ModelForm):
     class Meta:
@@ -15,3 +15,8 @@ class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ['name', 'description']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']

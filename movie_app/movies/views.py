@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
 from .models import Genre, Tag, Movie
-from .forms import MovieForm, GenreForm, TagForm
+from .forms import MovieForm, GenreForm, TagForm, CommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -64,7 +64,9 @@ def movie_detail(request, movie_id):
     if not movie.public:
         if not request.user.is_staff:
             return HttpResponse("Movie is private")
+    comments = movie.comment_set.all()
     context["movie"] = movie
+    context["comments"] = comments
     return render(request, "movies/movie_detail.html", context)
 
 def movie_create(request):
@@ -261,3 +263,27 @@ def user_profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     context["user"] = user
     return render(request, "movies/user_profile.html", context)
+
+def comment_create(request):
+    context = {}
+
+    if not request.user.is_authenticated:
+        return HttpResponse("No rights to do this action")
+    
+    try:
+        movie = get_object_or_404(Movie, pk=int(request.GET.get('movie')))
+    except:
+        return HttpResponse("Invalid movie id given")
+    
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = request.user
+            instance.created_in = movie
+            instance.save()
+            return HttpResponseRedirect(reverse('movie_detail', args=(str(movie.id))))
+    else:
+        form = CommentForm()
+    context["form"] = form
+    return render(request, "movies/create_edit_form.html", {"form": form})

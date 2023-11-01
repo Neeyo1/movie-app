@@ -35,3 +35,13 @@ class Movie(models.Model):
     
     def is_public(self):
         return self.public
+    
+
+class Comment(models.Model):
+    content = models.TextField(max_length=500)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_in = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.content

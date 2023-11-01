@@ -46,7 +46,7 @@ body{
     text-align: center;
 }
 
-.movie, .genre, .tag{
+.movie, .genre, .tag, .comment{
     font-size: 20px;
     min-height:40px;
     width:100%;
@@ -56,18 +56,16 @@ body{
     padding-left: 15px;
 }
 
-.comment{
-    font-size: 20px;
-    min-height:40px;
-    width:100%;
-    border-bottom: 2px solid black;
-    padding-left: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+.comment-author{
+    font-size: 16px;
 }
 
-.movie:nth-child(2n), .genre:nth-child(2n), .tag:nth-child(2n){
+.movie:nth-child(2n), .genre:nth-child(2n), .tag:nth-child(2n), .comment:nth-child(2n){
     background-color: #F5F5DC;
+}
+
+.movie-info{
+    border-bottom: 2px solid black;
 }
 
 .name, .description, .created-by, .created-at, .last-update{
@@ -75,10 +73,6 @@ body{
     padding: 10px;
     display: flex;
     align-items: center;
-}
-
-.comment-info{
-    font-size: 15px;
 }
 
 .profile{

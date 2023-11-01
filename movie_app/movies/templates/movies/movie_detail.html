@@ -4,37 +4,48 @@
     {% if request.user.is_staff %}
         <a href="{% url 'movie_edit' movie.id %}">Edit movie</a></br>
         <a href="{% url 'movie_delete' movie.id %}">Delete movie</a></br>
-        <br/>
         {% if movie.is_public %}
-            <a href="{% url 'movie_public_private' movie.id %}">Mark movie as private</a>
+            <a href="{% url 'movie_public_private' movie.id %}">Mark movie as private</a><br/>
         {% else %}
-            <a href="{% url 'movie_public_private' movie.id %}">Mark movie as public</a>
+            <a href="{% url 'movie_public_private' movie.id %}">Mark movie as public</a><br/>
         {% endif %}
+        <br/>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'comment_create' %}?movie={{ movie.id }}">Add comment</a></br>
     {% endif %}
     <hr/>
 {% endblock left_panel %}
 
 {% block content %}
     <div class = "right-panel">
-        {{ movie.name }}<br/>
-        {{ movie.description }}<br/>
-        Genres: 
-        {% for genre in movie.genres.all %}
-            <a href="{% url 'genre_detail' genre.id %}">{{ genre }}</a>
+        <div class = "movie-info">
+            {{ movie.name }}<br/>
+            {{ movie.description }}<br/>
+            Genres: 
+            {% for genre in movie.genres.all %}
+                <a href="{% url 'genre_detail' genre.id %}">{{ genre }}</a>
+            {% endfor %}
+            <br/>
+            Tags: 
+            {% for tag in movie.tags.all %}
+                <a href="{% url 'tag_detail' tag.id %}">{{ tag }}</a>
+            {% endfor %}
+            <br/>
+            Created by <a href="/profile/{{ movie.created_by.id }}">{{ movie.created_by }}</a><br/>
+            Created at {{ movie.created_at }}<br/>
+            Last update {{ movie.updated_at }}<br/>
+            {% if movie.is_public %}
+                Status: Public<br/>
+            {% else %}
+                Status: Private<br/>
+            {% endif %}
+        </div>
+
+        {% for comment in comments %}
+            <div class = "comment">
+                {{ comment }} <span class = "comment-author">&nbsp<a href="{% url 'user_profile' comment.author.id %}">{{ comment.author }}</a> {{ comment.created_at|timesince }} ago</span><br/>
+            </div>
         {% endfor %}
-        <br/>
-        Tags: 
-        {% for tag in movie.tags.all %}
-            <a href="{% url 'tag_detail' tag.id %}">{{ tag }}</a>
-        {% endfor %}
-        <br/>
-        Created by <a href="/profile/{{ movie.created_by.id }}">{{ movie.created_by }}</a><br/>
-        Created at {{ movie.created_at }}<br/>
-        Last update {{ movie.updated_at }}<br/>
-        {% if movie.is_public %}
-            Status: Public<br/>
-        {% else %}
-            Status: Private<br/>
-        {% endif %}
     </div>
 {% endblock content %}

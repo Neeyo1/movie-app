@@ -32,4 +32,6 @@ urlpatterns = [
     path("tag/delete/<int:tag_id>", views.tag_delete, name="tag_delete"),
     #user profile
     path("profile/<int:user_id>/", views.user_profile, name="user_profile"),
+    #comment
+    path("comment/create/", views.comment_create, name="comment_create"),
 ]

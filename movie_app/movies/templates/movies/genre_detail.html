@@ -10,11 +10,15 @@
 
 {% block content %}
     <div class = "right-panel">
-        {{ genre.name }}<br/>
-        {{ genre.description }}<br/>
-        Movies with this genre:<br/>
+        <div class = "genre-info">
+            {{ genre.name }}<br/>
+            {{ genre.description }}<br/>
+            Movies with this genre:<br/>
+        </div>
         {% for movie in movies %}
-            <a href="{% url 'movie_detail' movie.id %}">{{ movie }}</a></br>
+            <div class = "movie">
+                <a href="{% url 'movie_detail' movie.id %}">{{ movie }}</a></br>
+            </div>
         {% endfor %}
     </div>
 {% endblock content %}

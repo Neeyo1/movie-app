@@ -10,11 +10,15 @@
 
 {% block content %}
     <div class = "right-panel">
-        {{ tag.name }}<br/>
-        {{ tag.description }}<br/>
-        Movies with this tag:<br/>
+        <div class = "tag-info">
+            {{ tag.name }}<br/>
+            {{ tag.description }}<br/>
+            Movies with this tag:<br/>
+        </div>
         {% for movie in movies %}
-            <a href="{% url 'movie_detail' movie.id %}">{{ movie }}</a></br>
+            <div class = "movie">
+                <a href="{% url 'movie_detail' movie.id %}">{{ movie }}</a></br>
+            </div>
         {% endfor %}
     </div>
 {% endblock content %}

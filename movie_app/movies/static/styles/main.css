@@ -64,7 +64,7 @@ body{
     background-color: #F5F5DC;
 }
 
-.movie-info{
+.movie-info, .genre-info, .tag-info{
     border-bottom: 2px solid black;
 }
 

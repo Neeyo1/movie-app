@@ -141,7 +141,10 @@ def genre(request):
 def genre_detail(request, genre_id):
     context = {}
     genre = get_object_or_404(Genre, pk=genre_id)
-    movies = genre.movie_set.all()
+    if request.user.is_staff:
+        movies = genre.movie_set.all()
+    else:
+        movies = genre.movie_set.filter(public = True)
     context["genre"] = genre
     context["movies"] = movies
     return render(request, "movies/genre_detail.html", context)
@@ -204,7 +207,10 @@ def tag(request):
 def tag_detail(request, tag_id):
     context = {}
     tag = get_object_or_404(Tag, pk=tag_id)
-    movies = tag.movie_set.all()
+    if request.user.is_staff:
+        movies = tag.movie_set.all()
+    else:
+        movies = tag.movie_set.filter(public = True)
     context["tag"] = tag
     context["movies"] = movies
     return render(request, "movies/tag_detail.html", context)
@@ -261,7 +267,10 @@ def tag_delete(request, tag_id):
 def user_profile(request, user_id):
     context = {}
     user = get_object_or_404(User, pk=user_id)
-    comments = user.comment_set.all().order_by('-created_at')
+    if request.user.is_staff:
+        comments = user.comment_set.all().order_by('-created_at')
+    else:
+        comments = user.comment_set.filter(created_in__public = True).order_by('-created_at')
     context["user"] = user
     context["comments"] = comments
     return render(request, "movies/user_profile.html", context)

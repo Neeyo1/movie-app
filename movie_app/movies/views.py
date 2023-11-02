@@ -261,7 +261,9 @@ def tag_delete(request, tag_id):
 def user_profile(request, user_id):
     context = {}
     user = get_object_or_404(User, pk=user_id)
+    comments = user.comment_set.all().order_by('-created_at')
     context["user"] = user
+    context["comments"] = comments
     return render(request, "movies/user_profile.html", context)
 
 def comment_create(request):

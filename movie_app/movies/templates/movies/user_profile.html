@@ -27,5 +27,10 @@
                 <p>Last login: {{ user.last_login|timesince }} ago</p>
             </div>
         </div>
+        {% for comment in comments %}
+            <div class = "comment">
+                {{ comment }} <span class = "comment-author">&nbsp<a href="{% url 'movie_detail' comment.created_in.id %}">{{ comment.created_in }}</a> {{ comment.created_at|timesince }} ago</span><br/>
+            </div>
+        {% endfor %}
     </div>
 {% endblock content %}

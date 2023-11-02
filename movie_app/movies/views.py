@@ -64,7 +64,7 @@ def movie_detail(request, movie_id):
     if not movie.public:
         if not request.user.is_staff:
             return HttpResponse("Movie is private")
-    comments = movie.comment_set.all()
+    comments = movie.comment_set.all().order_by('-created_at')
     context["movie"] = movie
     context["comments"] = comments
     return render(request, "movies/movie_detail.html", context)

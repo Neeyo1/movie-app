@@ -13,7 +13,7 @@
         <div class = "genre-info">
             {{ genre.name }}<br/>
             {{ genre.description }}<br/>
-            Movies with this genre:<br/>
+            {{ movies.count }} movies with this genre:<br/>
         </div>
         {% for movie in movies %}
             <div class = "movie">

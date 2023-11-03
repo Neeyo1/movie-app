@@ -42,6 +42,8 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_in = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
+    reply = models.BooleanField(default=False)
+    reply_to = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.content

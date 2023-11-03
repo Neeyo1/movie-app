@@ -34,4 +34,5 @@ urlpatterns = [
     path("profile/<int:user_id>/", views.user_profile, name="user_profile"),
     #comment
     path("comment/create/", views.comment_create, name="comment_create"),
+    path("comment/reply/", views.comment_reply, name="comment_reply"),
 ]

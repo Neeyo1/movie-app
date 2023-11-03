@@ -56,6 +56,17 @@ body{
     padding-left: 15px;
 }
 
+.comment-reply{
+    font-size: 20px;
+    min-height:40px;
+    width:100%;
+    border-bottom: 2px solid black;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    background-color: grey;
+}
+
 .comment-author{
     font-size: 16px;
 }

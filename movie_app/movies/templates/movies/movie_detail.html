@@ -44,8 +44,13 @@
 
         {% for comment in comments %}
             <div class = "comment">
-                {{ comment }} <span class = "comment-author">&nbsp<a href="{% url 'user_profile' comment.author.id %}">{{ comment.author }}</a> {{ comment.created_at|timesince }} ago</span><br/>
+                {{ comment }} <span class = "comment-author">&nbsp<a href="{% url 'user_profile' comment.author.id %}">{{ comment.author }}</a> {{ comment.created_at|timesince }} ago&nbsp<a href="{% url 'comment_reply' %}?movie={{ movie.id }}&comment={{ comment.id }}">Reply</a></span><br/>
             </div>
+            {% for reply in comment.comment_set.all|dictsortreversed:"created_at" %}
+                <div class = "comment-reply">
+                    {{ reply }} <span class = "comment-author">&nbsp<a href="{% url 'user_profile' reply.author.id %}">{{ reply.author }}</a> {{ reply.created_at|timesince }} ago
+                </div>
+            {% endfor %}
         {% endfor %}
     </div>
 {% endblock content %}

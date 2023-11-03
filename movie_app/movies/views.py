@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
-from .models import Genre, Tag, Movie
+from .models import Genre, Tag, Movie, Comment
 from .forms import MovieForm, GenreForm, TagForm, CommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -64,7 +64,7 @@ def movie_detail(request, movie_id):
     if not movie.public:
         if not request.user.is_staff:
             return HttpResponse("Movie is private")
-    comments = movie.comment_set.all().order_by('-created_at')
+    comments = movie.comment_set.filter(reply=False).order_by('-created_at')
     context["movie"] = movie
     context["comments"] = comments
     return render(request, "movies/movie_detail.html", context)
@@ -292,6 +292,33 @@ def comment_create(request):
             instance = form.save(commit=False)
             instance.author = request.user
             instance.created_in = movie
+            instance.save()
+            return HttpResponseRedirect(reverse('movie_detail', args=(str(movie.id))))
+    else:
+        form = CommentForm()
+    context["form"] = form
+    return render(request, "movies/create_edit_form.html", {"form": form})
+
+def comment_reply(request):
+    context = {}
+
+    if not request.user.is_authenticated:
+        return HttpResponse("No rights to do this action")
+    
+    try:
+        movie = get_object_or_404(Movie, pk=int(request.GET.get('movie')))
+        comment = get_object_or_404(Comment, pk=int(request.GET.get('comment')))
+    except:
+        return HttpResponse("Invalid movie or comment id given")
+    
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = request.user
+            instance.created_in = movie
+            instance.reply = True
+            instance.reply_to = comment
             instance.save()
             return HttpResponseRedirect(reverse('movie_detail', args=(str(movie.id))))
     else:

@@ -13,7 +13,7 @@
         <div class = "tag-info">
             {{ tag.name }}<br/>
             {{ tag.description }}<br/>
-            {{ movies.count }} movies with this tag:<br/>
+            {{ movies.count }} {% if movies.count == 1 %} movie {% else %} movies {% endif %} with this tag:<br/>
         </div>
         {% for movie in movies %}
             <div class = "movie">

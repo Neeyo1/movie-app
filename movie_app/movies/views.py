@@ -135,6 +135,14 @@ def movie_public_private(request, movie_id):
 def genre(request):
     context = {}
     genres = Genre.objects.all()
+    movie_count = []
+    for genre in genres:
+        if request.user.is_staff:
+            movies = genre.movie_set.all().count()
+        else:
+            movies = genre.movie_set.filter(public = True).count()
+        movie_count.append(movies)
+    genres = zip(genres, movie_count)
     context['genres'] = genres
     return render(request, "movies/genre.html", context)
 
@@ -201,6 +209,14 @@ def genre_delete(request, genre_id):
 def tag(request):
     context = {}
     tags = Tag.objects.all()
+    movie_count = []
+    for tag in tags:
+        if request.user.is_staff:
+            movies = tag.movie_set.all().count()
+        else:
+            movies = tag.movie_set.filter(public = True).count()
+        movie_count.append(movies)
+    tags = zip(tags, movie_count)
     context['tags'] = tags
     return render(request, "movies/tag.html", context)
 

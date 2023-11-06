@@ -9,9 +9,9 @@
 {% block content %}
     <div class = "right-panel">
         {% if genres %}
-            {% for genre in genres %}
+            {% for genre, count in genres %}
                 <div class = "genre">
-                    <a href="{% url 'genre_detail' genre.id %}">{{ genre.name }}</a>
+                    <a href="{% url 'genre_detail' genre.id %}">{{ genre.name }}</a> &nbsp{{count}} {% if count == 1 %} movie {% else %} movies {% endif %}
                 </div>
             {% endfor %}
         {% else %}

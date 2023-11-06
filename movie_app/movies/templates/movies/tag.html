@@ -10,9 +10,9 @@
 {% block content %}
     <div class = "right-panel">
         {% if tags %}
-            {% for tag in tags %}
+            {% for tag, count in tags %}
                 <div class = "tag">
-                    <a href="{% url 'tag_detail' tag.id %}">{{ tag.name }}</a>
+                    <a href="{% url 'tag_detail' tag.id %}">{{ tag.name }}</a> &nbsp{{count}} {% if count == 1 %} movie {% else %} movies {% endif %}
                 </div>
             {% endfor %}
         {% else %}

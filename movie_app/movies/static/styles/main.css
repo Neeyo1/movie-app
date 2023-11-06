@@ -98,7 +98,7 @@ body{
     border-bottom: 2px solid black;
 }
 
-.profile-picture{
+.profile-picture > img{
     float: left;
     width: 200px;
 }

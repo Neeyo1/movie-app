@@ -9,7 +9,7 @@
     <div class = "profile">
         <div class = "profile-info">
             <div class="profile-picture">
-                <img src="{% static 'user_profile_pictures/default.jpg' %}" alt="Profile picture">
+                <img src="{{ user.profile.image.url }}" alt="Profile picture">
             </div>
             <div class="profile-user-info">
                 <p>Username: {{ user.username }}</p>

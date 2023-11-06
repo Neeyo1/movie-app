@@ -1,4 +1,6 @@
 {% extends 'movies/template.html' %}
+{% load movies_extras %}
+
 {% block left_panel %}
     {% if request.user.is_staff %}
         <a href="{% url 'genre_create' %}">Create genre</a></br>
@@ -9,7 +11,7 @@
 {% block content %}
     <div class = "right-panel">
         {% if genres %}
-            {% for genre, count in genres %}
+            {% for genre, count in genres|zip:movie_count %}
                 <div class = "genre">
                     <a href="{% url 'genre_detail' genre.id %}">{{ genre.name }}</a> &nbsp{{count}} {% if count == 1 %} movie {% else %} movies {% endif %}
                 </div>

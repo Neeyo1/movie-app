@@ -55,7 +55,12 @@ def register_to_page(request):
 def movie(request):
     context = {}
     movies = Movie.objects.all()
+    comment_count = []
+    for movie in movies:
+        comments = movie.comment_set.all().count()
+        comment_count.append(comments)
     context['movies'] = movies
+    context['comment_count'] = comment_count
     return render(request, "movies/movie.html", context)
 
 def movie_detail(request, movie_id):
@@ -153,8 +158,13 @@ def genre_detail(request, genre_id):
         movies = genre.movie_set.all()
     else:
         movies = genre.movie_set.filter(public = True)
+    comment_count = []
+    for movie in movies:
+        comments = movie.comment_set.all().count()
+        comment_count.append(comments)
     context["genre"] = genre
     context["movies"] = movies
+    context["comment_count"] = comment_count
     return render(request, "movies/genre_detail.html", context)
 
 def genre_create(request):
@@ -227,8 +237,13 @@ def tag_detail(request, tag_id):
         movies = tag.movie_set.all()
     else:
         movies = tag.movie_set.filter(public = True)
+    comment_count = []
+    for movie in movies:
+        comments = movie.comment_set.all().count()
+        comment_count.append(comments)
     context["tag"] = tag
     context["movies"] = movies
+    context["comment_count"] = comment_count
     return render(request, "movies/tag_detail.html", context)
 
 def tag_create(request):

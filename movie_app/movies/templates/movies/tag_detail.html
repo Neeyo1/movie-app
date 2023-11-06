@@ -1,4 +1,5 @@
 {% extends 'movies/template.html' %}
+{% load movies_extras %}
 
 {% block left_panel %}
     {% if request.user.is_staff %}
@@ -15,9 +16,9 @@
             {{ tag.description }}<br/>
             {{ movies.count }} {% if movies.count == 1 %} movie {% else %} movies {% endif %} with this tag:<br/>
         </div>
-        {% for movie in movies %}
+        {% for movie, count in movies|zip:comment_count %}
             <div class = "movie">
-                <a href="{% url 'movie_detail' movie.id %}">{{ movie }}</a></br>
+                <a href="{% url 'movie_detail' movie.id %}">{{ movie }}</a> &nbsp{{count}} {% if count == 1 %} comment {% else %} comments {% endif %}
             </div>
         {% endfor %}
     </div>

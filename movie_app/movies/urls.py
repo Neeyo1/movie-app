@@ -32,6 +32,7 @@ urlpatterns = [
     path("tag/delete/<int:tag_id>", views.tag_delete, name="tag_delete"),
     #user profile
     path("profile/<int:user_id>/", views.user_profile, name="user_profile"),
+    path("profile/edit/", views.user_profile_edit, name="user_profile_edit"),
     #comment
     path("comment/create/", views.comment_create, name="comment_create"),
     path("comment/reply/", views.comment_reply, name="comment_reply"),

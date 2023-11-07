@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
 from .models import Genre, Tag, Movie, Comment
-from .forms import MovieForm, GenreForm, TagForm, CommentForm
+from .forms import MovieForm, GenreForm, TagForm, CommentForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -305,6 +305,27 @@ def user_profile(request, user_id):
     context["user"] = user
     context["comments"] = comments
     return render(request, "movies/user_profile.html", context)
+
+def user_profile_edit(request):
+    context = {}
+
+    if not request.user.is_authenticated:
+        return HttpResponse("No rights to do this action")
+    
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return HttpResponseRedirect(reverse('user_profile', args=(str(request.user.id))))
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+    context["u_form"] = u_form
+    context["p_form"] = p_form
+    return render(request, "movies/user_profile_edit.html", context)
 
 def comment_create(request):
     context = {}

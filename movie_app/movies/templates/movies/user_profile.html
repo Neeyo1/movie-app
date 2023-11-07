@@ -2,7 +2,10 @@
 {% load static %}
 
 {% block left_panel %}
-    
+    {% if request.user == user %}
+        <a href="{% url 'user_profile_edit' %}">Edit your profile</a></br>
+    {% endif %}
+    <hr/>
 {% endblock left_panel %}
 
 {% block content %}

@@ -32,7 +32,7 @@
                 <a href="{% url 'tag_detail' tag.id %}">{{ tag }}</a>
             {% endfor %}
             <br/>
-            Created by <a href="/profile/{{ movie.created_by.id }}">{{ movie.created_by }}</a><br/>
+            Created by <a href="{% url 'user_profile' movie.created_by.id %}">{{ movie.created_by }}</a><br/>
             Created at {{ movie.created_at }}<br/>
             Last update {{ movie.updated_at }}<br/>
             {% if movie.is_public %}

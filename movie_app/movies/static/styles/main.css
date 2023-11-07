@@ -67,6 +67,10 @@ body{
     background-color: grey;
 }
 
+.comment-picture{
+    width:40px;
+}
+
 .comment-author{
     font-size: 16px;
 }

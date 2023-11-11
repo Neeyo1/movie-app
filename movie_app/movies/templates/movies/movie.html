@@ -13,7 +13,7 @@
         {% if movies %}
             {% for movie, count in movies|zip:comment_count %}
                 <div class = "movie">
-                    <a href="{% url 'movie_detail' movie.id %}">{{ movie.name }}</a> &nbsp{{count}} {% if count == 1 %} comment {% else %} comments {% endif %}
+                    <img class = "comment-picture", src="{{ movie.image.url }}"/><a href="{% url 'movie_detail' movie.id %}">{{ movie.name }}</a> &nbsp{{count}} {% if count == 1 %} comment {% else %} comments {% endif %}
                 </div>
             {% endfor %}
         {% else %}

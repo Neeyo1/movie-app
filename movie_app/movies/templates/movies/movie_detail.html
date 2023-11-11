@@ -20,6 +20,9 @@
 {% block content %}
     <div class = "right-panel">
         <div class = "movie-info">
+            <div class="profile-picture">
+                <img src="{{ movie.image.url }}" alt="Movie picture">
+            </div>
             {{ movie.name }}<br/>
             {{ movie.description }}<br/>
             Genres: 

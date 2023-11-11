@@ -102,7 +102,7 @@ def movie_edit(request, movie_id):
 
     form = MovieForm(instance=movie)
     if request.method == "POST":
-        form = MovieForm(request.POST, instance=movie)
+        form = MovieForm(request.POST, request.FILES, instance=movie)
         if form.is_valid():
             instance = form.save()
             return HttpResponseRedirect(reverse('movie_detail', args=(str(instance.id))))

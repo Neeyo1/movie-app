@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
-        fields = ['name', 'description', 'genres', 'tags']
+        fields = ['name', 'description', 'genres', 'tags', 'image']
 
 class GenreForm(forms.ModelForm):
     class Meta:

@@ -54,7 +54,10 @@ def register_to_page(request):
 
 def movie(request):
     context = {}
-    movies = Movie.objects.all()
+    if request.user.is_staff:
+        movies = Movie.objects.all()
+    else:
+        movies = Movie.objects.filter(public = True)
     comment_count = []
     for movie in movies:
         comments = movie.comment_set.all().count()

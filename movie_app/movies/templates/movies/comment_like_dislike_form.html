@@ -1,0 +1,10 @@
+<form action="" method="post">
+    {% csrf_token %}
+    <p>
+        You are going to {{ action }} comment {{ comment }}. Are you sure?
+    </p>
+    <p>
+        <a href = "{{ request.META.HTTP_REFERER }}">No, go back</a>
+    </p>
+    <input type="submit" value="Yes, {{ action }}">
+</form>

@@ -380,3 +380,31 @@ def comment_reply(request):
         form = CommentForm()
     context["form"] = form
     return render(request, "movies/create_edit_form.html", {"form": form})
+
+def comment_like_dislike(request):
+    context = {}
+
+    if not request.user.is_authenticated:
+        return HttpResponse("No rights to do this action")
+    
+    try:
+        movie = get_object_or_404(Movie, pk=int(request.GET.get('movie')))
+        comment = get_object_or_404(Comment, pk=int(request.GET.get('comment')))
+    except:
+        return HttpResponse("Invalid movie or comment id given")
+    
+    if request.method == "POST":
+        if request.user in comment.liked_by.all():
+            comment.liked_by.remove(request.user)
+        else:
+            comment.liked_by.add(request.user)
+        comment.save()
+        return HttpResponseRedirect(reverse('movie_detail', args=(str(movie.id))))
+    
+    if request.user in comment.liked_by.all():
+        action = "dislike"
+    else:
+        action = "like"
+    context["comment"] = comment
+    context["action"] = action
+    return render(request, "movies/comment_like_dislike_form.html", context)

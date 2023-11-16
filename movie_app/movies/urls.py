@@ -36,4 +36,5 @@ urlpatterns = [
     #comment
     path("comment/create/", views.comment_create, name="comment_create"),
     path("comment/reply/", views.comment_reply, name="comment_reply"),
+    path("comment/like-dislike/", views.comment_like_dislike, name="comment_like_dislike"),
 ]

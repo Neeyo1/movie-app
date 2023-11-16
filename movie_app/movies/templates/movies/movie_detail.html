@@ -47,11 +47,41 @@
 
         {% for comment in comments %}
             <div class = "comment">
-                {{ comment }} <span class = "comment-author">&nbsp<img class = "comment-picture", src="{{ comment.author.profile.image.url }}"/><a href="{% url 'user_profile' comment.author.id %}">{{ comment.author }}</a> {{ comment.created_at|timesince }} ago&nbsp<a href="{% url 'comment_reply' %}?movie={{ movie.id }}&comment={{ comment.id }}">Reply</a></span><br/>
+                {{ comment }} 
+                <span class = "comment-author">
+                    <img class = "comment-picture", src="{{ comment.author.profile.image.url }}"/>
+                    <a href="{% url 'user_profile' comment.author.id %}">{{ comment.author }}</a>
+                    {{ comment.created_at|timesince }} ago
+                    <a href="{% url 'comment_reply' %}?movie={{ movie.id }}&comment={{ comment.id }}">Reply</a>
+                    {{comment.liked_by.count }} likes
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'comment_like_dislike' %}?movie={{ movie.id }}&comment={{ comment.id }}">
+                            {% if request.user in comment.liked_by.all %}
+                                Dislike
+                            {% else %}
+                                Like
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                </span><br/>
             </div>
             {% for reply in comment.comment_set.all|dictsortreversed:"created_at" %}
                 <div class = "comment-reply">
-                    {{ reply }} <span class = "comment-author">&nbsp<img class = "comment-picture", src="{{ comment.author.profile.image.url }}"/><a href="{% url 'user_profile' reply.author.id %}">{{ reply.author }}</a> {{ reply.created_at|timesince }} ago
+                    {{ reply }} 
+                    <span class = "comment-author">
+                        <img class = "comment-picture", src="{{ comment.author.profile.image.url }}"/>
+                        <a href="{% url 'user_profile' reply.author.id %}">{{ reply.author }}</a>
+                        {{ reply.created_at|timesince }} ago
+                        {{comment.liked_by.count }} likes
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'comment_like_dislike' %}?movie={{ movie.id }}&comment={{ comment.id }}">
+                                {% if request.user in comment.liked_by.all %}
+                                    Dislike
+                                {% else %}
+                                    Like
+                                {% endif %}
+                            </a>
+                        {% endif %}
                 </div>
             {% endfor %}
         {% endfor %}

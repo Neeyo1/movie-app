@@ -72,10 +72,10 @@
                         <img class = "comment-picture", src="{{ comment.author.profile.image.url }}"/>
                         <a href="{% url 'user_profile' reply.author.id %}">{{ reply.author }}</a>
                         {{ reply.created_at|timesince }} ago
-                        {{ comment.liked_by.count }} likes
+                        {{ reply.liked_by.count }} likes
                         {% if request.user.is_authenticated %}
-                            <a href="{% url 'comment_like_dislike' %}?movie={{ movie.id }}&comment={{ comment.id }}">
-                                {% if request.user in comment.liked_by.all %}
+                            <a href="{% url 'comment_like_dislike' %}?movie={{ movie.id }}&comment={{ reply.id }}">
+                                {% if request.user in reply.liked_by.all %}
                                     Dislike
                                 {% else %}
                                     Like

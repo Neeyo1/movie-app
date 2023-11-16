@@ -54,6 +54,7 @@ class Comment(models.Model):
     created_in = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
     reply = models.BooleanField(default=False)
     reply_to = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
+    liked_by = models.ManyToManyField(User, related_name='liked_by')
 
     def __str__(self):
         return self.content

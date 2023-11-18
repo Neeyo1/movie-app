@@ -393,6 +393,9 @@ def comment_like_dislike(request):
     except:
         return HttpResponse("Invalid movie or comment id given")
     
+    if request.user == comment.author and not request.user.is_staff:
+        return HttpResponse("No rights to do this action")
+    
     if request.method == "POST":
         if request.user in comment.liked_by.all():
             comment.liked_by.remove(request.user)

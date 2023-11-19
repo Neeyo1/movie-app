@@ -396,6 +396,14 @@ def comment_like_dislike(request):
     if request.user == comment.author and not request.user.is_staff:
         return HttpResponse("No rights to do this action")
     
+    if request.user in comment.liked_by.all():
+        comment.liked_by.remove(request.user)
+    else:
+        comment.liked_by.add(request.user)
+    comment.save()
+    return HttpResponseRedirect(reverse('movie_detail', args=(str(movie.id))))
+
+    '''
     if request.method == "POST":
         if request.user in comment.liked_by.all():
             comment.liked_by.remove(request.user)
@@ -411,3 +419,4 @@ def comment_like_dislike(request):
     context["comment"] = comment
     context["action"] = action
     return render(request, "movies/comment_like_dislike_form.html", context)
+    '''

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
+from django.db.models import Count
 
 # Create your views here.
 def index(request):
@@ -142,7 +143,11 @@ def movie_public_private(request, movie_id):
 
 def genre(request):
     context = {}
-    genres = Genre.objects.all()
+    q_genre = request.GET.get('type') or ''
+    if q_genre in ('Name', ''):
+        genres = Genre.objects.all().order_by('name')
+    elif q_genre == 'Movies count':
+        genres = Genre.objects.all().annotate(movies=Count('movie')).order_by('movies')
     movie_count = []
     for genre in genres:
         if request.user.is_staff:
@@ -152,6 +157,7 @@ def genre(request):
         movie_count.append(movies)
     context['genres'] = genres
     context['movie_count'] = movie_count
+    context['q_genre'] = q_genre
     return render(request, "movies/genre.html", context)
 
 def genre_detail(request, genre_id):

@@ -4,7 +4,24 @@
 {% block left_panel %}
     {% if request.user.is_staff %}
         <a href="{% url 'genre_create' %}">Create genre</a></br>
+        <hr/>
     {% endif %}
+    <div class = "search-bar">
+            <h3>Filter</h3>
+            <form method="GET", action="">
+                <select name="type">
+                    {% if q_genre == 'Movies count' %}
+                        <option>Name</option>
+                        <option selected="selected">Movies count</option>
+                    {% else %}
+                        <option selected="selected">Name</option>
+                        <option>Movies count</option>
+                    {% endif %}
+                </select>
+                <br/>
+                <input type="submit", value="Filter">
+            </form>
+        </div>
     <hr/>
 {% endblock left_panel %}
 

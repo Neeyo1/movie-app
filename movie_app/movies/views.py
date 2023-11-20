@@ -227,7 +227,11 @@ def genre_delete(request, genre_id):
 
 def tag(request):
     context = {}
-    tags = Tag.objects.all()
+    q_tag = request.GET.get('type') or ''
+    if q_tag in ('Name', ''):
+        tags = Tag.objects.all().order_by('name')
+    elif q_tag == 'Movies count':
+        tags = Tag.objects.all().annotate(movies=Count('movie')).order_by('movies')
     movie_count = []
     for tag in tags:
         if request.user.is_staff:
@@ -237,6 +241,7 @@ def tag(request):
         movie_count.append(movies)
     context['tags'] = tags
     context['movie_count'] = movie_count
+    context['q_tag'] = q_tag
     return render(request, "movies/tag.html", context)
 
 def tag_detail(request, tag_id):

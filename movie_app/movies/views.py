@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 # Create your views here.
 def index(request):
@@ -69,7 +69,9 @@ def movie(request):
 
 def movie_detail(request, movie_id):
     context = {}
-    movie = get_object_or_404(Movie, pk=movie_id)
+    movie = Movie.objects.filter(id=movie_id).annotate(avg_rating=Sum('rating__rate_value')/Count('rating'))[0]
+    if movie.avg_rating is not None:
+        movie.avg_rating = round(movie.avg_rating, 2)
     if not movie.public:
         if not request.user.is_staff:
             return HttpResponse("Movie is private")

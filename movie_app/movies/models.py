@@ -67,8 +67,8 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
-    def save(self):
-        super().save()
+    def save(self, *args, **kwargs):
+        super(Profile, self).save(*args, **kwargs)
         img = Image.open(self.image.path)
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
@@ -79,7 +79,7 @@ class Rating(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     rate_movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
-    rate_value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
+    rate_value = models.FloatField(validators=[MinValueValidator(1), MaxValueValidator(10)])
 
     def __str__(self):
         return str(self.rate_value)

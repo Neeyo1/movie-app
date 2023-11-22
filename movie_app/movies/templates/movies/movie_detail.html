@@ -61,6 +61,7 @@
             {% else %}
                 Status: Private<br/>
             {% endif %}
+            Average rating: {% if movie.avg_rating is None %} No ratings yet {% else %} {{ movie.avg_rating }} {% endif %}
         </div>
 
         {% for comment in comments %}

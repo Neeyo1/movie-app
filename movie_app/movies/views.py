@@ -74,6 +74,12 @@ def movie_detail(request, movie_id):
         if not request.user.is_staff:
             return HttpResponse("Movie is private")
     comments = movie.comment_set.filter(reply=False).order_by('-created_at')
+    if request.user.is_authenticated:
+        try:
+            user_rating = movie.rating_set.filter(author = request.user)[0].rate_value
+        except:
+            user_rating = 0
+        context["user_rating"] = user_rating
     context["movie"] = movie
     context["comments"] = comments
     return render(request, "movies/movie_detail.html", context)

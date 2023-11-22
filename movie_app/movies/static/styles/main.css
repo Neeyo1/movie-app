@@ -116,3 +116,13 @@ body{
     clear: both;
     width:100%;
 }
+
+.rating-star-checked {
+    color: orange;
+    text-decoration: none;
+}
+
+.rating-star {
+    color: black;
+    text-decoration: none;
+}

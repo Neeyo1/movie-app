@@ -14,10 +14,23 @@
     {% endif %}
     {% if request.user.is_authenticated %}
         <a href="{% url 'comment_create' %}?movie={{ movie.id }}">Add comment</a></br>
-        Rate movie<br/>
-        {% for i in 1|range:11 %}
-            <a href="{% url 'movie_rate' %}?movie={{ movie.id }}&rate={{ i }}">&#9733;</a>
-        {% endfor %}
+        <div class = "rating">
+            {% if user_rating %}
+                You've rated movie {{ user_rating }}/10<br/>
+                {% for i in 1|range:11 %}
+                    {% if i <= user_rating %}
+                        <span class = "rating-star-checked">&#9733;</a>
+                    {% else %}
+                        <span class = "rating-star">&#9733;</a>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                Rate movie<br/>
+                {% for i in 1|range:11 %}
+                    <a class = "rating-star" href="{% url 'movie_rate' %}?movie={{ movie.id }}&rate={{ i }}">&#9733;</a>
+                {% endfor %}
+            {% endif %}
+        </div>
     {% endif %}
     <hr/>
 {% endblock left_panel %}

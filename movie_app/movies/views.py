@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
-from .models import Genre, Tag, Movie, Comment
+from .models import Genre, Tag, Movie, Comment, Rating
 from .forms import MovieForm, GenreForm, TagForm, CommentForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -431,3 +431,25 @@ def comment_like_dislike(request):
     context["action"] = action
     return render(request, "movies/comment_like_dislike_form.html", context)
     '''
+
+def movie_rate(request):
+    context = {}
+
+    if not request.user.is_authenticated:
+        return HttpResponse("No rights to do this action")
+    
+    try:
+        movie = get_object_or_404(Movie, pk=int(request.GET.get('movie')))
+        rate = int(request.GET.get('rate'))
+    except:
+        return HttpResponse("Invalid movie id or rate value given")
+    
+    if rate < 1 or rate > 10:
+        return HttpResponse("Invalid rate value given")
+    
+    if movie.rating_set.filter(author = request.user):
+        return HttpResponse("You've already rated this movie")
+    else:
+        rating = Rating(author=request.user, rate_movie=movie, rate_value=rate)
+        rating.save()
+        return HttpResponseRedirect(reverse('movie_detail', args=(str(movie.id))))

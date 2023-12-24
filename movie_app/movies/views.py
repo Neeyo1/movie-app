@@ -60,10 +60,15 @@ def movie(request):
     else:
         movies = Movie.objects.filter(public = True)
     comment_count = []
+    movies_with_rating = []
     for movie in movies:
+        movie = Movie.objects.filter(name=movie).annotate(avg_rating=Sum('rating__rate_value')/Count('rating'))[0]
+        if movie.avg_rating is not None:
+            movie.avg_rating = round(movie.avg_rating, 2)
         comments = movie.comment_set.all().count()
         comment_count.append(comments)
-    context['movies'] = movies
+        movies_with_rating.append(movie)
+    context['movies'] = movies_with_rating
     context['comment_count'] = comment_count
     return render(request, "movies/movie.html", context)
 

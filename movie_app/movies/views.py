@@ -181,12 +181,17 @@ def genre_detail(request, genre_id):
     else:
         movies = genre.movie_set.filter(public = True)
     comment_count = []
+    movies_with_rating = []
     for movie in movies:
+        movie = Movie.objects.filter(name=movie).annotate(avg_rating=Sum('rating__rate_value')/Count('rating'))[0]
+        if movie.avg_rating is not None:
+            movie.avg_rating = round(movie.avg_rating, 2)
         comments = movie.comment_set.all().count()
         comment_count.append(comments)
+        movies_with_rating.append(movie)
     context["genre"] = genre
-    context["movies"] = movies
-    context["comment_count"] = comment_count
+    context['movies'] = movies_with_rating
+    context['comment_count'] = comment_count
     return render(request, "movies/genre_detail.html", context)
 
 def genre_create(request):
@@ -265,12 +270,17 @@ def tag_detail(request, tag_id):
     else:
         movies = tag.movie_set.filter(public = True)
     comment_count = []
+    movies_with_rating = []
     for movie in movies:
+        movie = Movie.objects.filter(name=movie).annotate(avg_rating=Sum('rating__rate_value')/Count('rating'))[0]
+        if movie.avg_rating is not None:
+            movie.avg_rating = round(movie.avg_rating, 2)
         comments = movie.comment_set.all().count()
         comment_count.append(comments)
+        movies_with_rating.append(movie)
     context["tag"] = tag
-    context["movies"] = movies
-    context["comment_count"] = comment_count
+    context['movies'] = movies_with_rating
+    context['comment_count'] = comment_count
     return render(request, "movies/tag_detail.html", context)
 
 def tag_create(request):
